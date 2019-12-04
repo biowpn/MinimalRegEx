@@ -231,7 +231,7 @@ DFA DFA::from_regex(const char *regex)
         break;
         case static_cast<char>(Operator::alternation):
         {
-            while (op_stack.size() > 0 && op_stack.back() == Operator::kleene_star || op_stack.back() == Operator::concatenation)
+            while (op_stack.size() > 0 && (op_stack.back() == Operator::kleene_star || op_stack.back() == Operator::concatenation))
             {
                 DFA::_eval(op_stack.back(), v_stack);
                 op_stack.pop_back();

@@ -199,8 +199,7 @@ class DFA:
                     raise Exception("missing left parenthesis '('")
             elif a == '|':
                 while op_s and op_s[-1] in ('*', '+', ):
-                    op = op_s.pop()
-                    DFA._eval(op, dfa_s)
+                    DFA._eval(op_s.pop(), dfa_s)
                 op_s.append(a)
                 is_last_tk_dfa = False
             elif a == '*':
@@ -209,8 +208,7 @@ class DFA:
                 dfa = DFA(0, {1}, [(0, a, 1)])
                 if is_last_tk_dfa:
                     while op_s and op_s[-1] in ('*', ):
-                        op = op_s.pop()
-                        DFA._eval(op, dfa_s)
+                        DFA._eval(op_s.pop(), dfa_s)
                     op_s.append('+')
                 dfa_s.append(dfa)
                 is_last_tk_dfa = True
