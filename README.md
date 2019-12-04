@@ -1,29 +1,54 @@
 # Minimal Regular Expression Engine
 
-Python implementation of a minimal regular expression engine.
+Python and C++ implementation of a minimal regular expression engine (support only the three basic operations (concatenation, alternation, and kleene star) and parenthesis).
 
 ## Usage
 
-1. directly calling `match`:
+- Python
 
-    ```
-    import RegEx
+    1. directly calling `match`:
 
-    RegEx.match("a(a|b|c)*b", "abacabb")
-    ```
+        ```
+        import RegEx
 
-2. construct DFA first, then eval against input:
+        RegEx.match("a(a|b|c)*b", "abacabb")
+        ```
 
-    ```
-    import RegEx
+    2. construct DFA first, then eval against input:
 
-    dfa = RegEx.DFA.from_regex("a(a|b|c)*b")
-    dfa("abacabb")
-    ```
+        ```
+        import RegEx
+
+        dfa = RegEx.DFA.from_regex("a(a|b|c)*b")
+        dfa("abacabb")
+        ```
+- C++
+
+    1. directly calling `match`:
+
+        ```
+        #include "RegEx.h"
+
+        RegEx::match("a(a|b|c)*b", "abacabb");
+        ```
+
+    2. construct DFA first, then eval against input:
+
+        ```
+        #include "RegEx.h"
+
+        auto dfa = RegEx::DFA::from_regex("a(a|b|c)*b");
+        dfa("abacabb");
+        ```    
 
 ## Testing
 
-run [test.py](./test.py)
+- Python
+    - run [test.py](./python/test.py)
+
+- C++
+    - `g++ --std=c++11 cpp/RegEx.cpp cpp/test.cpp -o test`
+    - execute `test`
 
 ## Credits
 

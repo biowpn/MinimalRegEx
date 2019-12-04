@@ -48,7 +48,7 @@ def test_kleene_star():
     ])
     # ab
 
-    dfa2 = dfa1.kstar()
+    dfa2 = dfa1.kleene_star()
     # (ab)*
 
     assert (dfa1("a") == False)
@@ -74,7 +74,7 @@ def test_concat():
     ])
     # ba
 
-    dfa5 = dfa3.concat(dfa4)
+    dfa5 = dfa3.concatenation(dfa4)
     # abba
 
     assert(dfa5("ab") == False)
@@ -99,7 +99,7 @@ def test_union():
     ])
     # bba
 
-    dfa8 = dfa6.union(dfa7)
+    dfa8 = dfa6.alternation(dfa7)
     # b((ab)|(ba))
 
     assert(dfa8("ab") == False)

@@ -115,7 +115,7 @@ class DFA:
                 return False
         return self.state in self.Fs
 
-    def kstar(self):
+    def kleene_star(self):
         S_ = -1
         Fs_ = self.Fs.union({S_})
         Rs_ = [r for r in self.Rs]
@@ -124,7 +124,7 @@ class DFA:
 
         return DFA.from_NFA(S_, Fs_, Rs_)
 
-    def concat(self, other):
+    def concatenation(self, other):
         # make sure self's states and other's states are disjoint
         S_other, Fs_other, Rs_other = other.pclone(self.num_states)
 
@@ -136,7 +136,7 @@ class DFA:
 
         return DFA.from_NFA(S_, Fs_, Rs_)
 
-    def union(self, other):
+    def alternation(self, other):
         # make sure self's states and other's states are disjoint
         S_other, Fs_other, Rs_other = other.pclone(self.num_states)
 
@@ -154,19 +154,19 @@ class DFA:
             if len(v_stack) < 1:
                 raise Exception("missing operand for operator '*'")
             lhs = v_stack.pop()
-            v_stack.append(lhs.kstar())
+            v_stack.append(lhs.kleene_star())
         elif op == '+':
             if len(v_stack) < 2:
                 raise Exception("missing operand for operator '+'")
             rhs = v_stack.pop()
             lhs = v_stack.pop()
-            v_stack.append(lhs.concat(rhs))
+            v_stack.append(lhs.concatenation(rhs))
         elif op == '|':
             if len(v_stack) < 2:
                 raise Exception("missing operand for operator '|'")
             rhs = v_stack.pop()
             lhs = v_stack.pop()
-            v_stack.append(lhs.union(rhs))
+            v_stack.append(lhs.alternation(rhs))
         else:
             raise Exception(f"undefined operator '{op}''")
 
@@ -178,7 +178,7 @@ class DFA:
         e = DFA(0, {0}, [(0, '', 0)])
         if len(regex) == 0:
             return e
-        # assume operator precedence: kleene_star > concat > union
+        # assume operator precedence: kleene_star > concatenation > alternation
         op_s = []
         dfa_s = []
         is_last_tk_dfa = False
