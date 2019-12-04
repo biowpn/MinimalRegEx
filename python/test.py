@@ -31,6 +31,14 @@ def test_nfa_to_dfa():
         (0, '', 1),
         (1, 'b', 2),
     ])
+    # (a|b)*b
+
+    assert (dfa("a") == False)
+    assert (dfa("b") == True)
+    assert (dfa("ab") == True)
+    assert (dfa("bb") == True)
+    assert (dfa("aba") == False)
+    assert (dfa("abbbaabaab") == True)
 
 
 def test_kleene_star():
@@ -118,9 +126,21 @@ def test_regex():
     assert(dfa("bab") == True)
     assert(dfa("bababbaab") == True)
 
-    assert(RegEx.match("ba", "bba") == False)
-    assert(RegEx.match("(a|b|c)(d|e)", "be") == True)
-    assert(RegEx.match("a(a|b|c)*b", "abacabb") == True)
+    # empty string
+    e = RegEx.DFA.from_regex("")
+    assert(e("") == True)
+    assert(e("a") == False)
+    # "()" can specify empty string too
+    e2 = RegEx.DFA.from_regex("()")
+    assert(e2("") == True)
+    assert(e2("a") == False)
+
+    # emulate '?' operator
+    # though I could, I choose not to make "(|abc)" legal
+    zero_or_one = RegEx.DFA.from_regex("(()|abc)")
+    assert(zero_or_one("") == True)
+    assert(zero_or_one("abc") == True)
+    assert(zero_or_one("abcabc") == False)
 
     # binary divisible by 3
     # https://stackoverflow.com/a/19608040/10899376

@@ -175,6 +175,9 @@ class DFA:
         '''
         construct DFA from regular expression
         '''
+        e = DFA(0, {0}, [(0, '', 0)])
+        if len(regex) == 0:
+            return e
         # assume operator precedence: kleene_star > concat > union
         op_s = []
         dfa_s = []
@@ -186,6 +189,8 @@ class DFA:
                 op_s.append(a)
                 is_last_tk_dfa = False
             elif a == ')':
+                if op_s and op_s[-1] == '(':
+                    dfa_s.append(e)
                 while op_s and op_s[-1] != '(':
                     DFA._eval(op_s.pop(), dfa_s)
                 if op_s and op_s[-1] == '(':
