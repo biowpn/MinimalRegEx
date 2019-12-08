@@ -10,8 +10,13 @@ namespace RegEx
 
 bool match(const char *pattern, const char *str)
 {
-    auto dfa = DFA::from_regex(pattern);
+    auto dfa = compile(pattern);
     return dfa(str);
+}
+
+DFA compile(const char *pattern)
+{
+    return DFA::from_regex(pattern);
 }
 
 template <class T>
@@ -309,6 +314,11 @@ bool DFA::operator()(const char *tape)
         ++tape;
     }
     return m_F.has(m_state);
+}
+
+bool DFA::match(const char *string)
+{
+    return this->operator()(string);
 }
 
 DFA DFA::kleene_star() const

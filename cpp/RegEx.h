@@ -60,6 +60,8 @@ public:
 
     bool operator()(const char *tape);
 
+    bool match(const char *string);
+
     DFA kleene_star() const;
 
     DFA concatenation(const DFA &other) const;
@@ -79,5 +81,7 @@ private:
 };
 
 bool match(const char *pattern, const char *str);
+
+DFA compile(const char *pattern);
 
 } // namespace RegEx

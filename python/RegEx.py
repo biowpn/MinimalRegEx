@@ -1,8 +1,12 @@
 
 
 def match(pattern, string):
-    dfa = DFA.from_regex(pattern)
+    dfa = compile(pattern)
     return dfa(string)
+
+
+def compile(pattern):
+    return DFA.from_regex(pattern)
 
 
 class DFA:
@@ -114,6 +118,9 @@ class DFA:
             if self.trapped:
                 return False
         return self.state in self.Fs
+
+    def match(self, string):
+        return self.__call__(string)
 
     def kleene_star(self):
         S_ = -1

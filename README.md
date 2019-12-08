@@ -2,6 +2,8 @@
 
 Python and C++ implementation of a minimal regular expression engine (support only the three basic operations (concatenation, alternation, and kleene star) and parenthesis).
 
+See also: [Minimal Context-Free Grammar Engine](https://github.com/ymenghank/MinimalCFG)
+
 ## Usage
 
 - Python
@@ -19,8 +21,8 @@ Python and C++ implementation of a minimal regular expression engine (support on
         ```
         import RegEx
 
-        dfa = RegEx.DFA.from_regex("a(a|b|c)*b")
-        dfa("abacabb")
+        dfa = RegEx.compile("a(a|b|c)*b")
+        dfa.match("abacabb")
         ```
 - C++
 
@@ -37,8 +39,8 @@ Python and C++ implementation of a minimal regular expression engine (support on
         ```
         #include "RegEx.h"
 
-        auto dfa = RegEx::DFA::from_regex("a(a|b|c)*b");
-        dfa("abacabb");
+        auto dfa = RegEx::compile("a(a|b|c)*b");
+        dfa.match("abacabb");
         ```    
 
 ## Testing
